@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:country_code_picker/country_code_picker.dart';
-import 'package:country_code_picker/country_localizations.dart';
 
 import 'package:flutter_localizations/flutter_localizations.dart';
 
@@ -104,29 +103,45 @@ class _MyAppState extends State<MyApp> {
           title: const Text('Country Picker Medium'),
         ),
         body: Center(
-          child: Row(
-            // crossAxisAlignment: CrossAxisAlignment.start,
-            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          child: Column(
             children: <Widget> [
-              CountryCodePicker(
-                onChanged: print,
-                initialSelection: '+507',
-                // favorite: ['+39', 'FR'],
-                // countryFilter: ['IT', 'FR'],
-                showFlagDialog: true,
-                onInit: (code) => print('onInit ${code?.name}'),
+
+              const Padding(
+                padding: EdgeInsets.only(top: 25.0, bottom: 10.0),
+                child: Text('What country are you from?', style: TextStyle(
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black87
+                ),),
               ),
-              Text('Phone')
-              // TextFormField(
-              //   decoration: const InputDecoration(
-              //     border: OutlineInputBorder(),
-              //     labelText: 'Phone'
-              //   ),
-              // ),
+
+              CountryCodePicker(
+                onChanged: onCountryChange,
+                initialSelection: '+507',
+                showFlagDialog: true,
+                flagWidth: 60.0,
+                flagDecoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.white
+                ),
+                textStyle: const TextStyle(fontSize: 20.0, fontWeight: FontWeight.w700, color: Colors.black87),
+                onInit: (code) {
+                  print('onInit ${code?.name}');
+                },
+              ),
+
+              onCountryChange(CountryCode()),
             ],
           ),
         ),
       ),
     );
+  }
+
+  Widget onCountryChange(CountryCode countryCode) {
+    setState(() {
+      countryCode.name = countryCode.name;
+    });
+    return Text('${countryCode.name}', style: const TextStyle(color: Colors.red),);
   }
 }
