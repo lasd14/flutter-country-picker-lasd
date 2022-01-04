@@ -14,6 +14,9 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+
+  String countryValue = '';
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -116,7 +119,12 @@ class _MyAppState extends State<MyApp> {
               ),
 
               CountryCodePicker(
-                onChanged: onCountryChange,
+                onChanged: (code) {
+                  setState(() {
+                    countryValue = code.name.toString();
+                    print(countryValue);
+                  });
+                },
                 initialSelection: '+507',
                 showFlagDialog: true,
                 flagWidth: 60.0,
@@ -129,8 +137,7 @@ class _MyAppState extends State<MyApp> {
                   print('onInit ${code?.name}');
                 },
               ),
-
-              onCountryChange(CountryCode()),
+              onTextCountry()
             ],
           ),
         ),
@@ -138,10 +145,12 @@ class _MyAppState extends State<MyApp> {
     );
   }
 
-  Widget onCountryChange(CountryCode countryCode) {
-    setState(() {
-      countryCode.name = countryCode.name;
-    });
-    return Text('${countryCode.name}', style: const TextStyle(color: Colors.red),);
+  Widget onTextCountry() {
+    return Text('Your country is ${countryValue == '' ? 'not selected' : countryValue}', style: const TextStyle(
+      color: Colors.black87,
+      fontSize: 15.0,
+      fontWeight: FontWeight.w600
+    ),);
   }
+
 }
